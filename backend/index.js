@@ -17,7 +17,11 @@ app.use("/api/v1/restaurants", restaurants);
 app.use("*", (req, res) => res.status(404).json({ error: "notfound" }));
 
 const port = process.env.PORT || 8000;
-MongoClient.connect(process.env.RESTREVIEW_DB_URI)
+MongoClient.connect(process.env.RESTREVIEW_DB_URI, {
+  maxPoolSize: 20,
+  wtimeoutMS: 2500,
+  useNewUrlParser: true,
+})
   .then(
     app.listen(port, () => {
       console.log(`listening on port ${port}`);
